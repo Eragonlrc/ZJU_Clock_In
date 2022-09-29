@@ -4,15 +4,16 @@ on:
   push:
     branches: 
       - master
-  watch:
-    types: started
+  # watch:
+  #   types: started
   schedule:
     - cron: 0 */8 * * *
 
 jobs:
   ClockIn:
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
+    # for unknown reason, schedule trigger cannot pass this if condition, thus deleting star trigger and if condition
+    # if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Checkout
         uses: actions/checkout@master
