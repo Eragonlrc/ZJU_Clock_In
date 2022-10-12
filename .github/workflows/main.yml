@@ -4,16 +4,15 @@ on:
   push:
     branches: 
       - master
-  # watch:
-  #   types: started
+  watch:
+    types: started
   schedule:
     - cron: 0 */8 * * *
 
 jobs:
   ClockIn:
     runs-on: ubuntu-latest
-    # for unknown reason, schedule trigger cannot pass this if condition, thus deleting star trigger and if condition
-    # if: github.event.repository.owner.id == github.event.sender.id
+    if: github.event.repository.owner.id == github.event.sender.id || github.event_name == 'schedule'
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -31,5 +30,3 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           python3 clock-in.py ${ACCOUNT} ${PASSWORD}
-          
-          
